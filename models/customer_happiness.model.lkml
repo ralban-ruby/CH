@@ -1,20 +1,25 @@
 connection: "elt_connector"
 
-include: "*.view"
+include: "/views/*.view.lkml"
+##include: "*.view"
 
 explore: ch_overview_master {hidden: yes}
 
-explore: hively_csat {
-  hidden: no
-# access_filter: {field:ch_employee_lookup_all.employeeid
-# user_attribute:employee_id}
-join: ch_employee_lookup_all {
-  relationship: many_to_one
-  type: full_outer
-  sql_on:  ${hively_csat.employeecode} = ${ch_employee_lookup_all.employee_code};;
-    }
+explore: hively_csat{
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${hively_csat.employeecode}=${employee_lookup_master.employee_code} ;;
+  }
   }
 
+explore: cancel_c{
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${cancel_c.who_saved_c}=${employee_lookup_master.name} ;;
+  }
+}
 
 
 datagroup: customer_happiness_default_datagroup {

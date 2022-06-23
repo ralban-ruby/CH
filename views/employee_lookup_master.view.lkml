@@ -1,5 +1,5 @@
-view: ch_employee_lookup_all {
-  sql_table_name: "CH"."CH_EMPLOYEE_LOOKUP_ALL"
+view: employee_lookup_master {
+  sql_table_name: "CH"."EMPLOYEE_LOOKUP_MASTER"
     ;;
 
   dimension: email {
@@ -95,6 +95,6 @@ view: ch_employee_lookup_all {
 
   measure: count {
     type: count
-    drill_fields: [legalname, samaccountname, mailnickname, name]
+    drill_fields: [mailnickname, legalname, name, samaccountname]
   }
 }
