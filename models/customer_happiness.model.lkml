@@ -13,6 +13,7 @@ explore: hively_csat{
   }
   }
 
+explore: employee_lookup_master  {}
 
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
