@@ -27,9 +27,14 @@ view: hively_csat {
     sql: ${TABLE}."EMAIL" ;;
   }
 
-  dimension: employeecode {
+  dimension: employee_code {
     type: number
-    sql: ${TABLE}."EMPLOYEECODE" ;;
+    sql: ${TABLE}."EMPLOYEE_CODE" ;;
+  }
+
+  dimension: employee_id {
+    type: number
+    sql: ${TABLE}."EMPLOYEE_ID" ;;
   }
 
   dimension: fromemail {
