@@ -2,6 +2,11 @@ view: employee_lookup_master {
   sql_table_name: "CH"."EMPLOYEE_LOOKUP_MASTER"
     ;;
 
+  dimension: department_desc {
+    type: string
+    sql: ${TABLE}."DEPARTMENT_DESC" ;;
+  }
+
   dimension: email {
     type: string
     sql: ${TABLE}."EMAIL" ;;
@@ -95,6 +100,6 @@ view: employee_lookup_master {
 
   measure: count {
     type: count
-    drill_fields: [mailnickname, legalname, name, samaccountname]
+    drill_fields: [mailnickname, samaccountname, legalname, name]
   }
 }
