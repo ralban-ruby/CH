@@ -140,4 +140,15 @@ view: fact_adherence_occurrences {
     type: count
     drill_fields: []
   }
+
+  measure: count_occurrences {
+    type: sum
+    sql: ${TABLE}."OCCURRENCE";;
+  }
+
+  measure: sum_hours {
+    type: sum
+    value_format_name: decimal_2
+    sql: ${TABLE}."Contract Time"/60 ;;
+  }
 }
