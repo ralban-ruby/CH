@@ -6,6 +6,11 @@ access_grant: admin {
   user_attribute: team
 }
 
+access_grant: admin {
+  allowed_values: ["admin"]
+  user_attribute: team
+}
+
 include: "/views/*.view.lkml"
 ##include: "/asana/*.view.lkml"
 
@@ -22,6 +27,7 @@ explore: hively_csat{
   }
   }
 
+explore: employee_lookup_master  {}
 
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
