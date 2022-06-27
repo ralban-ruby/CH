@@ -1,6 +1,15 @@
 connection: "elt_connector"
+##connection: "snowflake"
+
+access_grant: admin {
+  allowed_values: ["admin"]
+  user_attribute: team
+}
 
 include: "/views/*.view.lkml"
+##include: "/asana/*.view.lkml"
+
+##include: "/views/*.view.lkml"
 ##include: "*.view"
 
 explore: ch_overview_master {hidden: yes}
