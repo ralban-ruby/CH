@@ -15,7 +15,7 @@ explore: hively_csat{
   join: employee_lookup_master {
     relationship: many_to_one
     type: full_outer
-    sql_on: ${hively_csat.employeecode}=${employee_lookup_master.employee_code} ;;
+    sql_on: ${hively_csat.employee_code}code}=${employee_lookup_master.employee_code} ;;
   }
   }
 
