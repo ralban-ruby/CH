@@ -1,5 +1,10 @@
 connection: "elt_connector"
 
+access_grant: admin {
+  allowed_values: ["admin"]
+  user_attribute: team
+}
+
 include: "/views/*.view.lkml"
 ##include: "*.view"
 
