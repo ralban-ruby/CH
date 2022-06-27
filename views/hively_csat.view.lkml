@@ -114,6 +114,6 @@ view: hively_csat {
 
   measure: count {
     type: count
-    drill_fields: []
+    drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 }
