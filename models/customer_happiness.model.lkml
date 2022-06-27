@@ -25,8 +25,8 @@ explore: fact_adherence_occurrences {
   join: employee_lookup_master {
     relationship: many_to_one
     type: inner
-    sql_on: ${fact_adherence_occurrences.employee_code}=${employee_lookup_master.employee_code}
-    ANd [${employee_lookup_master.department_desc}='Customer Happiness'];;
+    sql_on: ${fact_adherence_occurrences.employee_code}=${employee_lookup_master.employee_code};;
+    ##ANd [${employee_lookup_master.department_desc}='Customer Happiness'];;
   }
 }
 
