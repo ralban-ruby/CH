@@ -1,5 +1,5 @@
 view: fact_adherence_occurrences {
-  sql_table_name: "CALABRIO"."FACT_ADHERENCE_OCCURRENCES"
+  sql_table_name: "RUBY"."CALABRIO"."FACT_ADHERENCE_OCCURRENCES"
     ;;
 
   dimension: absence {
@@ -21,30 +21,14 @@ view: fact_adherence_occurrences {
     type: time
     timeframes: [
       raw,
+      time,
       date,
       week,
       month,
       quarter,
       year
     ]
-    convert_tz: no
-    datatype: date
     sql: ${TABLE}."DATE" ;;
-  }
-
-  dimension_group: effective_through {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."EFFECTIVE THROUGH DATE" ;;
   }
 
   dimension: email {
@@ -63,17 +47,8 @@ view: fact_adherence_occurrences {
     sql: ${TABLE}."EMPLOYEEID" ;;
   }
 
-  dimension_group: end {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: end_time {
+    type: date_time
     sql: ${TABLE}."End Time" ;;
   }
 
@@ -107,27 +82,20 @@ view: fact_adherence_occurrences {
     sql: ${TABLE}."Scheduled Ready Time" ;;
   }
 
-  dimension_group: start {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
+  dimension: start_time {
+    type: date_time
     sql: ${TABLE}."Start Time" ;;
   }
 
   dimension: team {
+    label: "Manager"
     type: string
     sql: ${TABLE}."TEAM" ;;
   }
 
   dimension: ukey {
     type: string
+    primary_key: yes
     sql: ${TABLE}."UKEY" ;;
   }
 
@@ -135,6 +103,18 @@ view: fact_adherence_occurrences {
     type: number
     sql: ${TABLE}."Work Time" ;;
   }
+
+  dimension: Effective_Through_Date {
+    type: string
+    sql: ${TABLE}."EFFECTIVE THROUGH DATE" ;;
+  }
+
+  dimension: Hours {
+    type: number
+    sql: ${TABLE}."Contract Time"/60;;
+    value_format: "#.00;(#.00)"
+  }
+
 
   measure: count {
     type: count
