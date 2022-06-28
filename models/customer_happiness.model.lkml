@@ -30,6 +30,8 @@ explore: fact_adherence_occurrences {
   }
 }
 
+explore: cancel {}
+
 ##explore: employee_lookup_master  {}
 
 datagroup: customer_happiness_default_datagroup {
