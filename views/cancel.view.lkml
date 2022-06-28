@@ -278,9 +278,20 @@ view: cancel {
     sql: ${TABLE}."WHAT_SAVED_THIS_CUSTOMER_C" ;;
   }
 
+  dimension: cancel_save_value {
+    type: number
+    sql: ${TABLE}."CUSTOMER_SAVED_C" ;;
+  }
+
+
   measure: count {
     type: count
     drill_fields: [salesforce_cancel_id]
+  }
+
+  measure: count_saves {
+    type: sum
+    sql: ${cancel_save_value}::int;;
   }
 
   # ----- Sets of fields for drilling ------
