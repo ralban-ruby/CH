@@ -120,6 +120,11 @@ view: hively_csat {
 
   measure: count_opportunity {
     type:  sum
+    # filters: {
+    #   field: rating
+    #   value: "Unhappy"
+    #     }
+    filters: [rating: "Unhappy,Satisfied"]
     sql: CASE WHEN ${TABLE}.RATING IN('Unhappy','Satisfied') THEN 1 ELSE 0 END;;
     drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
     }
