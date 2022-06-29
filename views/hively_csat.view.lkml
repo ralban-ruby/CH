@@ -114,7 +114,7 @@ view: hively_csat {
 
   measure: count {
     type: count
-    drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+    drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
 
@@ -126,7 +126,7 @@ view: hively_csat {
     #     }
     filters: [rating: "Unhappy,Satisfied"]
     sql: CASE WHEN ${TABLE}.RATING IN('Unhappy','Satisfied') THEN 1 ELSE 0 END;;
-    drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+    drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
     }
 
 
