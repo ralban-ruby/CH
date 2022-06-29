@@ -116,4 +116,14 @@ view: hively_csat {
     type: count
     drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
+
+
+  measure: count_opportunity {
+    type:  sum
+    sql: CASE WHEN ${TABLE}.RATING IN('Unhappy','Satisfied') THEN 1 ELSE 0 END;;
+    drill_fields: [customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+    }
+
+
+
 }
