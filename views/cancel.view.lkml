@@ -45,8 +45,8 @@ view: cancel {
       quarter,
       year
     ]
-    sql: ${TABLE}.CAST(${TABLE}."CANCEL_CREATED_DATE" AS TIMESTAMP_NTZ) ;;
-  }
+    sql: CAST(${TABLE}."CANCEL_CREATED_DATE" AS TIMESTAMP_NTZ) ;;
+   }
 
   dimension: cancel_owner_department {
     type: string
