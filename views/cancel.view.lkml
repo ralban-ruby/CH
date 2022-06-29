@@ -284,14 +284,31 @@ view: cancel {
   }
 
 
-  measure: count {
+  measure: count_cancel {
+    label: "Total Cancels"
     type: count
-    drill_fields: [salesforce_cancel_id]
+    filters: [customer_saved_c: "0"]
+    drill_fields: [customer,
+      salesforce_account_owner,
+      cancel_owner_employee_name,
+      cancel_owner_title,
+      cancellation_date_c_date,
+      cancellation_effective_date_c_date,
+      primary_attempted_tactic_c,
+      primary_cancel_reason_c,
+      product_cancelling_c,
+      service_issues_c,
+      went_to_competitor_v_2_c,
+      not_a_good_fit_c,
+      anticipated_return_c_date,]
   }
 
   measure: count_saves {
+    label: "Total Cancel Saves"
     type: sum
+    filters: [customer_saved_c: "1"]
     sql: ${cancel_save_value}::int;;
+    drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
