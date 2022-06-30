@@ -118,7 +118,7 @@ view: hively_csat {
     label: "Happy"
     type: sum
     filters: [rating: "Happy"]
-    sql: CASE WHEN ${rating} = 'Happy' THEN '1' ELSE 0  END ;;
+    sql: CASE WHEN ${TABLE}.RATING = 'Happy' THEN '1' ELSE 0  END ;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
@@ -126,7 +126,7 @@ view: hively_csat {
     label: "Satisfied"
     type: sum
     filters: [rating: "Satisfied"]
-    sql: CASE WHEN ${rating} = 'Satisfied' THEN '1' ELSE 0 END ;;
+    sql: CASE WHEN ${TABLE}.RATING = 'Satisfied' THEN '1' ELSE 0 END ;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
@@ -134,7 +134,7 @@ view: hively_csat {
     label: "Unhappy"
     type: sum
     filters: [rating: "Unhappy"]
-    sql: CASE WHEN ${rating} = 'Unhappy' THEN '1' ELSE 0 END ;;
+    sql: CASE WHEN ${TABLE}.RATING = 'Unhappy' THEN '1' ELSE 0 END ;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
