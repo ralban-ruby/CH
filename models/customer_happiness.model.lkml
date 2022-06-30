@@ -24,11 +24,12 @@ explore: fact_adherence_occurrences {
   view_label: "CH_Absences"
   join: employee_lookup_master {
     relationship: many_to_one
-    type: inner
+    type: full_outer
     sql_on: ${fact_adherence_occurrences.employee_code}=${employee_lookup_master.employee_code};;
     ##ANd [${employee_lookup_master.department_desc}='Customer Happiness'];;
   }
 }
+
 
 explore: cancel {
    join: Cancel_Owner_Employee_Lookup_Master {
@@ -44,6 +45,18 @@ explore: cancel {
     sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
   }
 }
+
+explore: Connections {
+  label: "CH_Connections"
+  view_label: "CH_Connections"
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${Connections.employeeid}=${employee_lookup_master.employee_code};;
+  }
+}
+
+
 
 
 
