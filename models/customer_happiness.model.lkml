@@ -52,7 +52,7 @@ explore: Connections {
   join: employee_lookup_master {
     relationship: many_to_one
     type: full_outer
-    sql_on: ${Connections.employeeid}=${employee_lookup_master.employee_code};;
+    sql_on: ${Connections.employeeid}=${employee_lookup_master.employeeid};;
   }
 }
 
