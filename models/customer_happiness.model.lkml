@@ -30,6 +30,17 @@ explore: fact_adherence_occurrences {
   }
 }
 
+explore: Connections {
+  label: "CH_Connections"
+  view_label: "CH_Connections"
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${Connections.employeeid}=${employee_lookup_master.employee_code};;
+  }
+}
+
+
 explore: cancel {}
 
 ##explore: employee_lookup_master  {}
