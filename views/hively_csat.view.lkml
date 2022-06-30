@@ -113,7 +113,8 @@ view: hively_csat {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${ratingid} ;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
