@@ -68,6 +68,7 @@ view: hively_csat {
   }
 
   dimension_group: ratingcreateddate {
+    label: "Rating Create"
     type: time
     timeframes: [
       raw,
