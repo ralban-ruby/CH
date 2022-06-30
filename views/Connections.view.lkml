@@ -75,7 +75,7 @@ view: Connections {
     sql: ${TABLE}."CREATED_DATE" ;;
   }
 
-  dimension_group: activity_date {
+  dimension_group: ACTIVITY_DATE {
     type: time
     timeframes: [
       raw,
@@ -87,7 +87,7 @@ view: Connections {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."activity_date" ;;
+    sql: ${TABLE}."ACTIVITY_DATE" ;;
   }
 
 
@@ -108,7 +108,7 @@ view: Connections {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."completed_date_time" ;;
+    sql: ${TABLE}."COMPLETED_DATE_TIME" ;;
   }
 
  ## dimension: completed_date_time {
@@ -143,7 +143,7 @@ view: Connections {
       subject,
       status,
       CREATED_DATE_date,
-      activity_date_raw,
+      ACTIVITY_DATE_date,
       completed_date_time_date,
       owner_id,
       account,
