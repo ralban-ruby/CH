@@ -55,20 +55,66 @@ view: Connections {
     sql: ${TABLE}."STATUS" ;;
   }
 
-  dimension: created_date {
-    type: date
+##  dimension: created_date {
+ ##   type: date
+##    sql: ${TABLE}."CREATED_DATE" ;;
+##  }
+  dimension_group: CREATED_DATE {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
     sql: ${TABLE}."CREATED_DATE" ;;
   }
 
-  dimension: activity_date {
-    type: date
-    sql: ${TABLE}."ACTIVITY_DATE" ;;
+  dimension_group: activity_date {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."activity_date" ;;
   }
 
-  dimension: completed_date_time {
-    type: date
-    sql: ${TABLE}."COMPLETED_DATE_TIME" ;;
+
+ ## dimension: activity_date {
+ ##   type: date
+ ##   sql: ${TABLE}."ACTIVITY_DATE" ;;
+ ## }
+
+  dimension_group: completed_date_time {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."completed_date_time" ;;
   }
+
+ ## dimension: completed_date_time {
+ ##   type: date
+ ##   sql: ${TABLE}."COMPLETED_DATE_TIME" ;;
+ ## }
 
   dimension: owner_id {
     type: string
@@ -96,9 +142,9 @@ view: Connections {
       connection_type_c,
       subject,
       status,
-      created_date,
-      activity_date,
-      completed_date_time,
+      CREATED_DATE_date,
+      activity_date_raw,
+      completed_date_time_date,
       owner_id,
       account,
       account_name
