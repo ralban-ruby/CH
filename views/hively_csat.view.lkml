@@ -113,19 +113,34 @@ view: hively_csat {
     sql: ${TABLE}."USERID" ;;
   }
 
-  measure: count {
-    type: count_distinct
-    sql: ${ratingid} ;;
+
+  measure: sum_happy  {
+    label: "Happy"
+    type: sum
+    filters: [rating: "Happy"]
+    sql: CASE WHEN ${rating} = 'Happy' THEN '1' ELSE 0  END ;;
+    drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+  }
+
+  measure: sum_satisfied  {
+    label: "Satisfied"
+    type: sum
+    filters: [rating: "Satisfied"]
+    sql: CASE WHEN ${rating} = 'Satisfied' THEN '1' ELSE 0 END ;;
+    drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+  }
+
+  measure: sum_unhappy  {
+    label: "Unhappy"
+    type: sum
+    filters: [rating: "Unhappy"]
+    sql: CASE WHEN ${rating} = 'Unhappy' THEN '1' ELSE 0 END ;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
   }
 
 
   measure: count_opportunity {
     type:  sum
-    # filters: {
-    #   field: rating
-    #   value: "Unhappy"
-    #     }
     filters: [rating: "Unhappy,Satisfied"]
     sql: CASE WHEN ${TABLE}.RATING IN('Unhappy','Satisfied') THEN 1 ELSE 0 END;;
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]

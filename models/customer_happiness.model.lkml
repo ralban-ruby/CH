@@ -30,9 +30,22 @@ explore: fact_adherence_occurrences {
   }
 }
 
-explore: cancel {}
+explore: cancel {
+   join: Cancel_Owner_Employee_Lookup_Master {
+    from: employee_lookup_master
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Owner_Employee_Lookup_Master.employee_code} ;;
+  }
+  join: Cancel_Save_Employee_Lookup_Master {
+    from: employee_lookup_master
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
+  }
+}
 
-##explore: employee_lookup_master  {}
+
 
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
