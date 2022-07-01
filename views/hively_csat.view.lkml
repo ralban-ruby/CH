@@ -79,7 +79,7 @@ view: hively_csat {
       quarter,
       year
     ]
-    sql: ${TABLE}."RATINGCREATEDDATE" ;;
+    sql: CAST(${TABLE}."RATINGCREATEDDATE" AS DATE) ;;
   }
 
   dimension: ratingid {
