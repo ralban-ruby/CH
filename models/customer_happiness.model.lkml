@@ -44,6 +44,22 @@ explore: cancel {
     type: full_outer
     sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
   }
+  join: customer_case {
+    relationship: many_to_many
+    type: full_outer
+    sql_on: ${cancel.salesforce_account} = ${customer_case.salesforce_account} ;;
+  }
+  join: hively_csat {
+    relationship: many_to_many
+    type: full_outer
+    sql_on: ${customer_case.case_number} = ${hively_csat.ticket} ;;
+   }
+  join: customer_mrr_details {
+    relationship: many_to_many
+    type: full_outer
+    sql_on: ${cancel.salesforce_account} = ${customer_mrr_details.crm_id} ;;
+  }
+
 }
 
 explore: Connections {
