@@ -54,11 +54,7 @@ explore: cancel {
     type: full_outer
     sql_on: ${customer_case.case_number} = ${hively_csat.ticket} ;;
    }
-  join: customer_mrr_details {
-    relationship: many_to_many
-    type: full_outer
-    sql_on: ${cancel.salesforce_account} = ${customer_mrr_details.crm_id} ;;
-  }
+
 
 }
 
