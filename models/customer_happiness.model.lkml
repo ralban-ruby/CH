@@ -31,31 +31,29 @@ explore: fact_adherence_occurrences {
 }
 
 
-explore: cancel {
+explore: sf_last_cancel_request  {
    join: Cancel_Owner_Employee_Lookup_Master {
     from: employee_lookup_master
     relationship: many_to_one
     type: full_outer
-    sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Owner_Employee_Lookup_Master.employee_code} ;;
+    sql_on: ${sf_last_cancel_request .cancel_owner_employee_code}=${Cancel_Owner_Employee_Lookup_Master.employee_code} ;;
   }
   join: Cancel_Save_Employee_Lookup_Master {
     from: employee_lookup_master
     relationship: many_to_one
     type: full_outer
-    sql_on: ${cancel.cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
+    sql_on: ${sf_last_cancel_request .cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
   }
   join: customer_case {
     relationship: many_to_many
     type: full_outer
-    sql_on: ${cancel.salesforce_account} = ${customer_case.salesforce_account} ;;
+    sql_on: ${sf_last_cancel_request .salesforce_account} = ${customer_case.salesforce_account} ;;
   }
   join: hively_csat {
     relationship: many_to_many
     type: full_outer
     sql_on: ${customer_case.case_number} = ${hively_csat.ticket} ;;
    }
-
-
 }
 
 explore: Connections {
