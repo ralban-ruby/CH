@@ -1,5 +1,5 @@
-view: churn_cancel {
-  sql_table_name: "CH"."CHURN_CANCEL"
+view: cancel_request {
+  sql_table_name: "CH"."CANCEL_REQUEST"
     ;;
 
   dimension_group: anticipated_return_c {
@@ -91,11 +91,6 @@ view: churn_cancel {
     sql: ${TABLE}."CANCELLATION_EFFECTIVE_DATE_C" ;;
   }
 
-  dimension: churn_amt {
-    type: number
-    sql: ${TABLE}."CHURN_AMT" ;;
-  }
-
   dimension: competitor_c {
     type: string
     sql: ${TABLE}."COMPETITOR_C" ;;
@@ -104,11 +99,6 @@ view: churn_cancel {
   dimension: competitor_other_c {
     type: string
     sql: ${TABLE}."COMPETITOR_OTHER_C" ;;
-  }
-
-  dimension: crm_id {
-    type: string
-    sql: ${TABLE}."CRM_ID" ;;
   }
 
   dimension: customer {
@@ -146,31 +136,6 @@ view: churn_cancel {
     sql: ${TABLE}."DESIRED_INTEGRATIONS_C" ;;
   }
 
-  dimension: future_bookings_amt {
-    type: number
-    sql: ${TABLE}."FUTURE_BOOKINGS_AMT" ;;
-  }
-
-  dimension_group: max_mrr_churn {
-    type: time
-    timeframes: [
-      raw,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    convert_tz: no
-    datatype: date
-    sql: ${TABLE}."MAX_MRR_CHURN_DATE" ;;
-  }
-
-  dimension: mrr_product {
-    type: string
-    sql: ${TABLE}."MRR_PRODUCT" ;;
-  }
-
   dimension: not_a_good_fit_c {
     type: yesno
     sql: ${TABLE}."NOT_A_GOOD_FIT_C" ;;
@@ -194,6 +159,21 @@ view: churn_cancel {
   dimension: product_cancelling_c {
     type: string
     sql: ${TABLE}."PRODUCT_CANCELLING_C" ;;
+  }
+
+  dimension: rn {
+    type: number
+    sql: ${TABLE}."RN" ;;
+  }
+
+  dimension: salesforce_account {
+    type: string
+    sql: ${TABLE}."SALESFORCE_ACCOUNT" ;;
+  }
+
+  dimension: salesforce_account_owner {
+    type: string
+    sql: ${TABLE}."SALESFORCE_ACCOUNT_OWNER" ;;
   }
 
   dimension: salesforce_cancel_id {
