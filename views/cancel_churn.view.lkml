@@ -1,5 +1,5 @@
-view: cancel_request {
-  sql_table_name: "CH"."CANCEL_REQUEST"
+view: cancel_churn {
+  sql_table_name: "CH"."CANCEL_CHURN"
     ;;
 
   dimension_group: anticipated_return_c {
@@ -27,7 +27,17 @@ view: cancel_request {
     sql: ${TABLE}."APP_FORCE_FUNCTIONALITY_OTHER_C" ;;
   }
 
-  dimension_group: cancel_created {
+  dimension: cancel_owner_employee_code {
+    type: number
+    sql: ${TABLE}."CANCEL_OWNER_EMPLOYEE_CODE" ;;
+  }
+
+  dimension: cancel_owner_employee_id {
+    type: number
+    sql: ${TABLE}."CANCEL_OWNER_EMPLOYEE_ID" ;;
+  }
+
+  dimension_group: cancel_req_created {
     type: time
     timeframes: [
       raw,
@@ -38,17 +48,7 @@ view: cancel_request {
       quarter,
       year
     ]
-    sql: ${TABLE}.CAST(${TABLE}."CANCEL_CREATED_DATE" AS TIMESTAMP_NTZ) ;;
-  }
-
-  dimension: cancel_owner_employee_code {
-    type: number
-    sql: ${TABLE}."CANCEL_OWNER_EMPLOYEE_CODE" ;;
-  }
-
-  dimension: cancel_owner_employee_id {
-    type: number
-    sql: ${TABLE}."CANCEL_OWNER_EMPLOYEE_ID" ;;
+    sql: ${TABLE}.CAST(${TABLE}."CANCEL_REQ_CREATED_DATE" AS TIMESTAMP_NTZ) ;;
   }
 
   dimension: cancel_saved_by_employee_code {
@@ -91,6 +91,11 @@ view: cancel_request {
     sql: ${TABLE}."CANCELLATION_EFFECTIVE_DATE_C" ;;
   }
 
+  dimension: churn_mrr_product {
+    type: string
+    sql: ${TABLE}."CHURN_MRR_PRODUCT" ;;
+  }
+
   dimension: competitor_c {
     type: string
     sql: ${TABLE}."COMPETITOR_C" ;;
@@ -99,6 +104,11 @@ view: cancel_request {
   dimension: competitor_other_c {
     type: string
     sql: ${TABLE}."COMPETITOR_OTHER_C" ;;
+  }
+
+  dimension: crm_id {
+    type: string
+    sql: ${TABLE}."CRM_ID" ;;
   }
 
   dimension: customer {
@@ -136,6 +146,56 @@ view: cancel_request {
     sql: ${TABLE}."DESIRED_INTEGRATIONS_C" ;;
   }
 
+  dimension: future_bookings_after_cancel_req {
+    type: number
+    sql: ${TABLE}."FUTURE_BOOKINGS_AFTER_CANCEL_REQ" ;;
+  }
+
+  dimension: future_bookings_after_churn_amt {
+    type: number
+    sql: ${TABLE}."FUTURE_BOOKINGS_AFTER_CHURN_AMT" ;;
+  }
+
+  dimension_group: last_booking {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."LAST_BOOKING_DATE" ;;
+  }
+
+  dimension: mrr_churn_amt {
+    type: number
+    sql: ${TABLE}."MRR_CHURN_AMT" ;;
+  }
+
+  dimension_group: mrr_churn {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."MRR_CHURN_DATE" ;;
+  }
+
+  dimension: mrr_lifetime_bookings_amt {
+    type: number
+    sql: ${TABLE}."MRR_LIFETIME_BOOKINGS_AMT" ;;
+  }
+
   dimension: not_a_good_fit_c {
     type: yesno
     sql: ${TABLE}."NOT_A_GOOD_FIT_C" ;;
@@ -156,24 +216,9 @@ view: cancel_request {
     sql: ${TABLE}."PRIMARY_REASON_DETAIL_C" ;;
   }
 
-  dimension: product_cancelling_c {
+  dimension: requested_product_cancel {
     type: string
-    sql: ${TABLE}."PRODUCT_CANCELLING_C" ;;
-  }
-
-  dimension: rn {
-    type: number
-    sql: ${TABLE}."RN" ;;
-  }
-
-  dimension: salesforce_account {
-    type: string
-    sql: ${TABLE}."SALESFORCE_ACCOUNT" ;;
-  }
-
-  dimension: salesforce_account_owner {
-    type: string
-    sql: ${TABLE}."SALESFORCE_ACCOUNT_OWNER" ;;
+    sql: ${TABLE}."REQUESTED_PRODUCT_CANCEL" ;;
   }
 
   dimension: salesforce_cancel_id {
