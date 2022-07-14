@@ -48,7 +48,9 @@ view: cancel_churn {
       quarter,
       year
     ]
-    sql: ${TABLE}.CAST(${TABLE}."CANCEL_REQ_CREATED_DATE" AS TIMESTAMP_NTZ) ;;
+    convert_tz: no
+    datatype:date
+    sql: CAST(${TABLE}."CANCEL_REQ_CREATED_DATE" AS DATE) ;;
   }
 
   dimension: cancel_saved_by_employee_code {
