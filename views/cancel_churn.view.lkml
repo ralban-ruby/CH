@@ -170,7 +170,7 @@ view: cancel_churn {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."LAST_BOOKING_DATE" ;;
+    sql: CAST(${TABLE}."LAST_BOOKING_DATE" AS DATE) ;;
   }
 
   dimension: mrr_churn_amt {
@@ -190,7 +190,7 @@ view: cancel_churn {
     ]
     convert_tz: no
     datatype: date
-    sql: ${TABLE}."MRR_CHURN_DATE" ;;
+    sql: CAST(${TABLE}."MRR_CHURN_DATE" AS DATE) ;;
   }
 
   dimension: mrr_lifetime_bookings_amt {
@@ -268,8 +268,77 @@ view: cancel_churn {
     sql: ${TABLE}."WHAT_SAVED_THIS_CUSTOMER_C" ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: []
+  dimension: cancel_req_owner_name {
+    type: string
+    sql: ${TABLE}."CANCEL_REQ_OWNER_NAME" ;;
   }
+
+  dimension: cancel_save_owner_name {
+    type: string
+    sql: ${TABLE}."CANCEL_SAVE_OWNER_NAME" ;;
+  }
+
+  dimension: last_book_before_churn_d
+  {
+    type: number
+    sql:  CASE WHEN ${last_booking_date}  < ${mrr_churn_date} THEN 1 ELSE 0 END ;;
+  }
+
+  dimension: cancelled_account_reception_product
+  {
+    type: number
+    sql: CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
+  }
+
+  dimension: cancelled_account_chat_product
+  {
+    type: number
+    sql: CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
+  }
+
+  dimension: cancel_save_reception_product
+  {
+    type: number
+    sql: CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${customer_saved_c} = 1 THEN 1 ELSE 0 END ;;
+  }
+
+  dimension: cancel_save_chat_product
+  {
+    type: number
+    sql: CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${customer_saved_c} = 1 THEN 1 ELSE 0 END ;;
+  }
+
+  measure: sum_cancelled_reception_product {
+    type: sum
+    label: "Cancelled Reception"
+     filters: [cancelled_account_reception_product: "1"]
+     sql:  CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
+     drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+  }
+
+  measure: sum_cancelled_chat_product {
+    type: sum
+    label: "Cancelled Chat"
+    filters: [cancelled_account_chat_product: "1"]
+    sql:  CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
+    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+  }
+
+  measure: sum_cancelsave_reception_product {
+    type: sum
+    label: "Cancelled Save Reception"
+    filters: [cancel_save_reception_product: "1"]
+    sql:CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${customer_saved_c} = 1 THEN 1 ELSE 0 END ;;
+    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
+  }
+
+  measure: sum_cancelledsave_chat_product {
+    type: sum
+    label: "Cancel Save Chat"
+    filters: [cancel_save_chat_product: "1"]
+    sql:  CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
+    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
+  }
+
+
 }
