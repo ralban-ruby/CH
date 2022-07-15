@@ -104,8 +104,18 @@ view: fact_adherence_occurrences {
     sql: ${TABLE}."Work Time" ;;
   }
 
-  dimension: Effective_Through_Date {
-    type: string
+  dimension_group: effective_through {
+    type: time
+    timeframes: [
+      raw,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    convert_tz: no
+    datatype: date
     sql: ${TABLE}."EFFECTIVE THROUGH DATE" ;;
   }
 
