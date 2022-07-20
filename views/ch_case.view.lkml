@@ -1,7 +1,7 @@
 view: ch_case {
   sql_table_name: "CH"."CH_CASE"
     ;;
-  drill_fields: [sum_ServiceComplaint]
+
   dimension: account_name {
     type: string
     sql: ${TABLE}."ACCOUNT_NAME" ;;
@@ -27,7 +27,7 @@ view: ch_case {
     sql: ${TABLE}."CASEID" ;;
   }
 
-  dimension_group: closed {
+  dimension_group: closeddate {
     type: time
     timeframes: [
       raw,
@@ -38,7 +38,7 @@ view: ch_case {
       quarter,
       year
     ]
-    sql: ${TABLE}.CAST(${TABLE}."CLOSED_DATE" AS TIMESTAMP_NTZ) ;;
+    sql: ${TABLE}.CAST(${TABLE}."CLOSEDDATE" AS TIMESTAMP_NTZ) ;;
   }
 
   dimension: complaint_type {
@@ -102,11 +102,6 @@ view: ch_case {
     sql: ${TABLE}."IS_CLOSED" ;;
   }
 
-  dimension: name {
-    type: string
-    sql: ${TABLE}."NAME" ;;
-  }
-
   dimension: new_reply_notification_c {
     type: string
     sql: ${TABLE}."NEW_REPLY_NOTIFICATION_C" ;;
@@ -140,9 +135,7 @@ view: ch_case {
   dimension: service_complaints {
     type: number
     sql: ${TABLE}."SERVICE_COMPLAINTS" ;;
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closed_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
-    }
-
+  }
 
   dimension: status {
     type: string
@@ -157,11 +150,6 @@ view: ch_case {
   dimension: t_actionable_cases {
     type: number
     sql: ${TABLE}."T_ACTIONABLE_CASES" ;;
-  }
-
-  dimension: technology_complaint {
-    type: number
-    sql: ${TABLE}."TECHNOLOGY_COMPLAINT" ;;
   }
 
   dimension: technology_complaints {
@@ -184,6 +172,11 @@ view: ch_case {
     sql: ${TABLE}."USERNAME" ;;
   }
 
+  dimension: userrolename {
+    type: string
+    sql: ${TABLE}."USERROLENAME" ;;
+  }
+
   dimension: wrap_up_code_c {
     type: string
     sql: ${TABLE}."WRAP_UP_CODE_C" ;;
@@ -196,15 +189,6 @@ view: ch_case {
 
   measure: count {
     type: count
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closed_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+    drill_fields: [account_name, username, userrolename]
   }
-
-  measure: sum_ServiceComplaint {
-    label: "ServiceComplaint_Sum"
-    type: sum
-    sql: ${service_complaints};;
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closed_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
-  }
-
-
 }
