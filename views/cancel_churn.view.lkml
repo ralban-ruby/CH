@@ -375,8 +375,20 @@ view: cancel_churn {
     drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
+  measure: count_distinct_cancel_save_accounts {
+    type:  count_distinct
+    label: "Cancel Saved Accounts"
+    sql:  ${TABLE}."CRM_ID"  ;;
+    filters:   [cancel_req_booking_flag:"=1",customer_saved_c: "1" ]
+    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+  }
 
-
+  measure: count_distinct_cancel_requested_accounts {
+    type:  count_distinct
+    label: "Cancel Requested Accounts"
+    sql:  ${TABLE}."CRM_ID"  ;;
+    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+  }
 
 
 
