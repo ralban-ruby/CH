@@ -1,7 +1,7 @@
 view: ch_case {
   sql_table_name: "CH"."CH_CASE"
     ;;
-
+  drill_fields: [sum_ServiceComplaint]
   dimension: account_name {
     type: string
     sql: ${TABLE}."ACCOUNT_NAME" ;;
@@ -194,6 +194,15 @@ view: ch_case {
 
   measure: count {
     type: count
-    drill_fields: [account_name, username, name]
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closed_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
+
+  measure: sum_ServiceComplaint {
+    label: "ServiceComplaint_Sum"
+    type: sum
+    sql: ${service_complaints};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closed_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
+
+
 }
