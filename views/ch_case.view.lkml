@@ -135,6 +135,7 @@ view: ch_case {
   dimension: service_complaints {
     type: number
     sql: ${TABLE}."SERVICE_COMPLAINTS" ;;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
   dimension: status {
@@ -189,6 +190,6 @@ view: ch_case {
 
   measure: count {
     type: count
-    drill_fields: [account_name, username, userrolename]
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 }
