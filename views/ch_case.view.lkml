@@ -137,7 +137,7 @@ view: ch_case {
   dimension: service_complaints {
     type: number
     sql: ${TABLE}."SERVICE_COMPLAINTS" ;;
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
   dimension: status {
@@ -192,15 +192,21 @@ view: ch_case {
 
   measure: count {
     type: count
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
   measure: sum_ServiceComplaint {
     label: "ServiceComplaint_Sum"
     type: sum
     sql: ${service_complaints};;
-    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
+ measure: sum_T_ACTIONABLE_CASES {
+    label: "ACTIONABLE_CASES"
+    type: sum
+    sql: ${t_actionable_cases};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
 
 }
