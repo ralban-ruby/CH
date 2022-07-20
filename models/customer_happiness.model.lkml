@@ -66,7 +66,15 @@ explore: Connections {
   }
 }
 
-
+explore: ch_case {
+  label: "CH_Case"
+  view_label: "CH_Case"
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${ch_case.employeeid}=${employee_lookup_master.employeeid};;
+  }
+}
 
 
 
