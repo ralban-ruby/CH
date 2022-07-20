@@ -38,7 +38,9 @@ view: ch_case {
       quarter,
       year
     ]
-    sql: ${TABLE}.CAST(${TABLE}."CLOSEDDATE" AS TIMESTAMP_NTZ) ;;
+    convert_tz: no
+    datatype: date
+    sql: ${TABLE}."CLOSEDDATE" ;;
   }
 
   dimension: complaint_type {
@@ -192,4 +194,13 @@ view: ch_case {
     type: count
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
+
+  measure: sum_ServiceComplaint {
+    label: "ServiceComplaint_Sum"
+    type: sum
+    sql: ${service_complaints};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
+
+
 }
