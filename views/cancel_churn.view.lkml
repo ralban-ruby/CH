@@ -326,7 +326,10 @@ view: cancel_churn {
   drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
     }
 
-
+  dimension: service_type {
+    type: string
+    sql: ${TABLE}."SERVICE_TYPE" ;;
+  }
   measure: sum_cancelled_reception_product {
     type: sum
     label: "Cancelled Reception"
