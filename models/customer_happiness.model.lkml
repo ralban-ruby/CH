@@ -66,9 +66,15 @@ explore: Connections {
   }
 }
 
-
-
-
+explore: ch_case {
+  label: "CH_Case"
+  view_label: "CH_Case"
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${ch_case.employeeid}=${employee_lookup_master.employeeid};;
+  }
+}
 
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
