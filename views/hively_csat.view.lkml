@@ -146,6 +146,12 @@ view: hively_csat {
     drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
     }
 
+  measure: count_rating {
+    type:  count_distinct
+    filters: [rating: "Unhappy,Satisfied,Happy"]
+    sql: ${TABLE}."RATINGID";;
+    drill_fields: [ticket,customer,member,team,department,rating,points,comment,ratingcreateddate_date]
+  }
 
 
 }
