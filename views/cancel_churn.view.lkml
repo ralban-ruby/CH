@@ -1,5 +1,5 @@
 view: cancel_churn {
-  sql_table_name: "CH"."CANCEL_CHURN"
+  sql_table_name: "CH"."CANCEL_DETAILS"
     ;;
 
   dimension_group: anticipated_return_c {
