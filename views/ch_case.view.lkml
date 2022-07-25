@@ -215,4 +215,11 @@ view: ch_case {
     sql: ${technology_complaints};;
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
+
+  measure: Avg_Case_Age {
+    label: "Avg Case age Days"
+    type: average
+    sql: ${case_age_days};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
 }
