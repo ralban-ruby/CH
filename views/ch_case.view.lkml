@@ -95,6 +95,16 @@ view: ch_case {
     sql: ${TABLE}."ERROR_NOTES_C" ;;
   }
 
+  dimension: error_specifics_c {
+    type: string
+    sql: ${TABLE}."ERROR_SPECIFICS_C" ;;
+  }
+
+  dimension: error_type_c {
+    type: string
+    sql: ${TABLE}."ERROR_TYPE_C" ;;
+  }
+
   dimension: errors {
     type: number
     sql: ${TABLE}."ERRORS" ;;
@@ -103,6 +113,11 @@ view: ch_case {
   dimension: is_closed {
     type: yesno
     sql: ${TABLE}."IS_CLOSED" ;;
+  }
+
+  dimension: it_ticket_openend {
+    type: number
+    sql: ${TABLE}."IT_TICKET_OPENEND" ;;
   }
 
   dimension: new_reply_notification_c {
@@ -139,6 +154,7 @@ view: ch_case {
     type: number
     sql: ${TABLE}."SERVICE_COMPLAINTS" ;;
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+
   }
 
   dimension: status {
@@ -203,7 +219,7 @@ view: ch_case {
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
- measure: sum_T_ACTIONABLE_CASES {
+  measure: sum_T_ACTIONABLE_CASES {
     label: "ACTIONABLE_CASES"
     type: sum
     sql: ${t_actionable_cases};;
@@ -222,6 +238,20 @@ view: ch_case {
     type: average
     value_format: "0"
     sql: ${case_age_days};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
+
+  measure: Sum_IT_ticket_openend {
+    label: "Total IT Tickcts"
+    type: sum
+    sql: ${it_ticket_openend};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
+
+ measure: Sum_Errors {
+    label: "Sum_Errors"
+    type: sum
+    sql: ${errors};;
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 }
