@@ -24,6 +24,7 @@ view: ch_case {
 
   dimension: caseid {
     type: string
+    primary_key: yes
     sql: ${TABLE}."CASEID" ;;
   }
 
