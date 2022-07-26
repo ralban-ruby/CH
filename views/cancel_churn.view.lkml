@@ -27,6 +27,12 @@ view: cancel_churn {
     sql: ${TABLE}."APP_FORCE_FUNCTIONALITY_OTHER_C" ;;
   }
 
+  dimension: cancel_key {
+    type: string
+    primary_key: yes
+    sql: ${TABLE}.CANCEL_KEY ;;
+  }
+
   dimension: cancel_owner_employee_code {
     type: number
     sql: ${TABLE}."CANCEL_OWNER_EMPLOYEE_CODE" ;;
