@@ -44,6 +44,16 @@ explore: cancel_churn  {
     type: full_outer
     sql_on: ${cancel_churn.cancel_owner_employee_code}=${Cancel_Save_Employee_Lookup_Master.employee_code} ;;
   }
+  join: mrr_details_combined {
+    relationship: many_to_many
+    type: full_outer
+    sql_on: ${mrr_details_combined.crm_id} = ${cancel_churn.crm_id} ;;
+  }
+  join: mrr_details_derived {
+    relationship: many_to_many
+    type: left_outer
+    sql_on: ${mrr_details_combined.crm_id} = ${cancel_churn.crm_id} ;;
+  }
   join: customer_case {
     relationship: many_to_many
     type: full_outer
