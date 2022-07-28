@@ -64,6 +64,11 @@ explore: cancel_churn  {
     type: full_outer
     sql_on: ${customer_case.case_number} = ${hively_csat.ticket} ;;
    }
+  join: cancel_request{
+    relationship: many_to_many
+    type: left_outer
+    sql_on: ${cancel_request.salesforce_account} = ${cancel_churn.crm_id} ;;
+  }
 }
 
 explore: Connections {

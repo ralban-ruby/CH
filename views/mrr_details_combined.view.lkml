@@ -649,6 +649,12 @@ view: mrr_details_combined {
     drill_fields: [crm_id, crm_name]
   }
 
+  measure: max_mrr_date  {
+    type: date
+    sql: MAX(${date_date}) ;;
+    convert_tz: no
+    }
+
   set: detail {
     fields: [
       crm_id,
