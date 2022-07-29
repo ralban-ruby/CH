@@ -236,7 +236,6 @@ view: ch_case {
   measure: Avg_Case_Age {
     label: "Avg Case age Days"
     type: average
-    value_format: "0"
     sql: ${case_age_days};;
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
@@ -252,6 +251,14 @@ view: ch_case {
     label: "Sum_Errors"
     type: sum
     sql: ${errors};;
+    drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
+  }
+
+  measure: ErrorPercentByActionalbleCases {
+    label: "ErrorPercentByActionalbleCases"
+    type: number
+    value_format_name: percent_2
+    sql: COALESCE(${Sum_Errors},0)/ NULLIF(${sum_T_ACTIONABLE_CASES},0);;
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 }
