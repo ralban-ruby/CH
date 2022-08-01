@@ -91,6 +91,36 @@ explore: ch_case {
   }
 }
 
+explore: salesforce_task {
+  join: salesforce_user {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${salesforce_task.owner_id} = ${salesforce_user.id} ;;
+  }
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: CASE WHEN LOWER(${employee_lookup_master.email}) = LOWER(${salesforce_user.name}) THEN 1
+            WHEN LOWER(${employee_lookup_master.mailnickname}) = LOWER(LEFT(${salesforce_user.name}, CHARINDEX('@', ${salesforce_user.name})-1)) THEN 1
+            WHEN LOWER(${employee_lookup_master.mailnickname}) = LOWER(LEFT(${salesforce_user.email} , CHARINDEX('@', ${salesforce_user.email})-1)) THEN 1
+            WHEN LOWER(${employee_lookup_master.legalname}) = LOWER(${salesforce_user.name}) THEN 1
+            WHEN LOWER(${employee_lookup_master.name}) = LOWER(${salesforce_user.name}) THEN 1
+            ELSE 0
+            END = 1
+            ;;
+      }
+  join: salesforce_account  {
+  relationship: many_to_one
+  type: full_outer
+  sql_on: ${salesforce_account.id} = COALESCE(${salesforce_task.account_c},${salesforce_task.account_id}) ;;
+
+  }
+}
+
+
+
+
+
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
