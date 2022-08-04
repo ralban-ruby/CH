@@ -4,7 +4,7 @@ view: salesforce_task {
            FROM FIVETRAN_DB.SALESFORCE.TASK T
           LEFT JOIN FIVETRAN_DB.SALESFORCE."ACCOUNT" A
         ON A.ID=COALESCE(T.ACCOUNT_C,T.ACCOUNT_ID)
-           WHERE T.IS_DELETED <> 1 AND A.IS_DELETED <> 1
+          WHERE T.IS_DELETED <> 1 AND A.IS_DELETED <> 1
           AND CAST(T.CREATED_DATE AS DATE) >= dateadd(YEAR,-2,date_trunc('MONTH',Current_Date))
                ;;
     }
