@@ -1,8 +1,8 @@
 view: salesforce_user {
       derived_table: {
-      sql: SELECT * FROM FIVETRAN_DB.SALESFORCE."USER"
+      sql: SELECT * FROM FIVETRAN_DB.SALESFORCE."USER" U
       WHERE _FIVETRAN_DELETED <> 1
-        ;;
+          ;;
     }
 
     measure: count {

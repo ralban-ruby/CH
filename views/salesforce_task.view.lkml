@@ -1,8 +1,11 @@
 view: salesforce_task {
       derived_table: {
-      sql: SELECT *
-           FROM FIVETRAN_DB.SALESFORCE.TASK
-           WHERE IS_DELETED <> 1
+      sql: SELECT T.*,A.NAME
+           FROM FIVETRAN_DB.SALESFORCE.TASK T
+          LEFT JOIN FIVETRAN_DB.SALESFORCE."ACCOUNT" A
+        ON A.ID=COALESCE(T.ACCOUNT_C,T.ACCOUNT_ID)
+           WHERE T.IS_DELETED <> 1 AND A.IS_DELETED <> 1
+          AND CAST(T.CREATED_DATE AS DATE) >= dateadd(YEAR,-2,date_trunc('MONTH',Current_Date))
                ;;
     }
 
@@ -10,6 +13,26 @@ view: salesforce_task {
       type: count
       drill_fields: [detail*]
     }
+
+
+  measure:due_today  {
+    type: sum
+    sql: CASE WHEN ${status} = 'Open' AND CAST(${activity_date_date} AS DATE) = ${today_date} THEN 1 ELSE 0 END ;;
+  }
+
+  measure: completed_today {
+    type: sum
+    sql: CASE WHEN ${status} = 'Completed' AND CAST(${completed_date_time_date} AS DATE) = ${today_date} AND CAST(${activity_date_date} AS DATE) = ${today_date}  THEN 1 ELSE 0 END ;;
+
+  }
+
+  measure: followupcall_completion_rate_today {
+    type: number
+    value_format_name: percent_1
+    sql: ${completed_today} / NULLIF(${due_today},0) ;;
+
+   }
+
 
     dimension: id {
       type: string
@@ -39,6 +62,12 @@ view: salesforce_task {
     dimension: subject {
       type: string
       sql: ${TABLE}."SUBJECT" ;;
+    }
+
+    dimension:account_name {
+      type: string
+      sql: ${TABLE}.NAME ;;
+
     }
 
     dimension_group: activity_date {
@@ -784,10 +813,27 @@ view: salesforce_task {
 
     }
 
+
+  dimension_group: today {
+
+    type: time
+
+    hidden: no
+
+    timeframes: [day_of_month, month, month_num, date, raw]
+
+    sql: current_date;;
+    }
+
+
+
+
+
+
+
     set: detail {
       fields: [
-        id,
-        salesforce_account_coalesce,
+        account_name,
         subject,
         activity_date_date,
         status,
@@ -805,5 +851,6 @@ view: salesforce_task {
         type_ch_c,
         completed_date_time_time,
             ]
+
     }
   }
