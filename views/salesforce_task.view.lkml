@@ -36,7 +36,8 @@ view: salesforce_task {
 
     dimension: id {
       type: string
-      sql: ${TABLE}."ID" ;;
+      primary_key: yes
+     sql: ${TABLE}."ID" ;;
     }
 
     dimension: who_id {
