@@ -1,10 +1,10 @@
 view: salesforce_task {
       derived_table: {
-      sql: SELECT T.*,A.NAME
+      sql:SELECT T.*,A.NAME,U.NAME AS EMPLOYEE_NAME
            FROM FIVETRAN_DB.SALESFORCE.TASK T
-          LEFT JOIN FIVETRAN_DB.SALESFORCE."ACCOUNT" A
-        ON A.ID=COALESCE(T.ACCOUNT_C,T.ACCOUNT_ID)
-          WHERE T.IS_DELETED <> 1 AND A.IS_DELETED <> 1
+          LEFT JOIN FIVETRAN_DB.SALESFORCE.ACCOUNT A ON A.ID=COALESCE(T.ACCOUNT_C,T.ACCOUNT_ID)
+          LEFT JOIN FIVETRAN_DB.SALESFORCE.USER U ON T.OWNER_ID = U.ID
+                   WHERE T.IS_DELETED <> 1 AND A.IS_DELETED <> 1 AND U._FIVETRAN_DELETED <> 1
           AND CAST(T.CREATED_DATE AS DATE) >= dateadd(YEAR,-2,date_trunc('MONTH',Current_Date))
                ;;
     }
@@ -43,6 +43,11 @@ view: salesforce_task {
       type: string
       sql: ${TABLE}."WHO_ID" ;;
     }
+
+  dimension: employee_name {
+    type: string
+    sql: ${TABLE}."EMPLOYEE_NAME" ;;
+  }
 
     dimension: what_id {
       type: string
@@ -833,6 +838,7 @@ view: salesforce_task {
 
     set: detail {
       fields: [
+        employee_name,
         account_name,
         subject,
         activity_date_date,
