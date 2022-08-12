@@ -54,16 +54,6 @@ explore: cancel_churn  {
     type: left_outer
     sql_on: ${mrr_details_combined.crm_id} = ${cancel_churn.crm_id} ;;
   }
-  join: customer_case {
-    relationship: many_to_many
-    type: full_outer
-    sql_on: ${cancel_churn.crm_id} = ${customer_case.salesforce_account} ;;
-  }
-  join: hively_csat {
-    relationship: many_to_many
-    type: full_outer
-    sql_on: ${customer_case.case_number} = ${hively_csat.ticket} ;;
-   }
   join: cancel_request{
     relationship: many_to_many
     type: left_outer
@@ -118,7 +108,51 @@ explore: salesforce_task {
 }
 
 
+explore: salesforce_case {
+  join: salesforce_user {
+    relationship: many_to_one
+    type: left_outer
+    sql_on: ${salesforce_case.owner_id} = ${salesforce_user.id};;
+   }
+   join: salesforce_user_role {
+     relationship: many_to_one
+     type: left_outer
+     sql_on: ${salesforce_user.user_role_id} = ${salesforce_user_role.id}  ;;
+    }
+   join: salesforce_account {
+     relationship: many_to_one
+     type: full_outer
+     sql_on: ${salesforce_account.id} = ${salesforce_case.account_id}  ;;
+     }
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: CASE WHEN LOWER(${employee_lookup_master.email}) = LOWER(${salesforce_user.name}) THEN 1
+            WHEN LOWER(${employee_lookup_master.mailnickname}) = LOWER(LEFT(${salesforce_user.name}, CHARINDEX('@', ${salesforce_user.name})-1)) THEN 1
+            WHEN LOWER(${employee_lookup_master.mailnickname}) = LOWER(LEFT(${salesforce_user.email} , CHARINDEX('@', ${salesforce_user.email})-1)) THEN 1
+            WHEN LOWER(${employee_lookup_master.legalname}) = LOWER(${salesforce_user.name}) THEN 1
+            WHEN LOWER(${employee_lookup_master.name}) = LOWER(${salesforce_user.name}) THEN 1
+            ELSE 0
+            END = 1
+            ;;
+  }
+  join: salesforce_case_history {
+    relationship: one_to_many
+    type: left_outer
+    sql_on: ${salesforce_case.id} = ${salesforce_case_history.case_id} ;;
+    }
+  join: salesforce_case_history_field_max_rn {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${salesforce_case_history.case_id} = ${salesforce_case_history_field_max_rn.salesforce_case_history_case_id }
+            AND ${salesforce_case_history.field} = ${salesforce_case_history_field_max_rn.salesforce_case_history_field }
+            AND ${salesforce_case_history.case_history_rn} = ${salesforce_case_history_field_max_rn.salesforce_case_history_max_rn_field }
+            ;;
 
+  }
+
+
+}
 
 
 datagroup: customer_happiness_default_datagroup {
