@@ -34,7 +34,6 @@ view: salesforce_case_history {
 
     }
 
-
     dimension: case_status {
       sql: ${salesforce_case.status} ;;
       }
