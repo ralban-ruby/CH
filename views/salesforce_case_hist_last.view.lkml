@@ -1,5 +1,4 @@
-
-view: salesforce_case_history_field_max_rn {
+view: salesforce_case_hist_last {
   derived_table: {
     sql: WITH salesforce_case AS (SELECT *
               FROM FIVETRAN_DB.SALESFORCE.CASE C
@@ -12,11 +11,11 @@ view: salesforce_case_history_field_max_rn {
               AND CAST(C.CREATED_DATE AS DATE) >= dateadd(YEAR,-2,date_trunc('MONTH',Current_Date))
                )
 SELECT
-    salesforce_case_history."CASE_ID"  AS "salesforce_case_history.case_id",
-    salesforce_case_history."FIELD"  AS "salesforce_case_history.field",
-    MAX(salesforce_case_history.CASE_HISTORY_RN ) AS "salesforce_case_history.max_rn_field"
+    salesforce_case_history.CASE_ID  AS case_id,
+    salesforce_case_history.FIELD  AS field,
+    MAX(salesforce_case_history.CASE_HISTORY_RN ) AS max_rn_field
 FROM salesforce_case
-LEFT JOIN salesforce_case_history ON (salesforce_case."ID") = (salesforce_case_history."CASE_ID")
+LEFT JOIN salesforce_case_history ON (salesforce_case.ID) = (salesforce_case_history.CASE_ID)
 GROUP BY
     1,
     2
@@ -30,22 +29,23 @@ ORDER BY
     drill_fields: [detail*]
   }
 
-  dimension: salesforce_case_history_case_id {
+
+  dimension: case_id {
     type: string
-    sql: ${TABLE}."salesforce_case_history.case_id" ;;
+    sql: ${TABLE}."CASE_ID" ;;
   }
 
-  dimension: salesforce_case_history_field {
+  dimension: field {
     type: string
-    sql: ${TABLE}."salesforce_case_history.field" ;;
+    sql: ${TABLE}."FIELD" ;;
   }
 
-  dimension: salesforce_case_history_max_rn_field {
+  dimension: max_rn_field {
     type: number
-    sql: ${TABLE}."salesforce_case_history.max_rn_field" ;;
+    sql: ${TABLE}."MAX_RN_FIELD" ;;
   }
 
   set: detail {
-    fields: [salesforce_case_history_case_id, salesforce_case_history_field, salesforce_case_history_max_rn_field]
+    fields: [case_id, field, max_rn_field]
   }
 }

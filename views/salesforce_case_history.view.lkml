@@ -28,11 +28,6 @@ view: salesforce_case_history {
       drill_fields: [detail*]
       }
 
-    measure: max_rn_field {
-      type: max
-      sql: ${TABLE}.CASE_HISTORY_RN ;;
-
-    }
 
     dimension: case_status {
       sql: ${salesforce_case.status} ;;
@@ -47,6 +42,7 @@ view: salesforce_case_history {
       type: number
       sql: ${TABLE}."CASE_HISTORY_RN" ;;
       }
+
 
 
     dimension: id {
@@ -87,7 +83,7 @@ view: salesforce_case_history {
 
     dimension: case_id {
       type: string
-      sql: ${TABLE}."CASE_ID" ;;
+      sql: ${TABLE}.CASE_ID ;;
     }
 
     dimension: created_by_id {
@@ -131,7 +127,7 @@ view: salesforce_case_history {
       fields: [
         case_number,
         case_status,
-            case_wrap_up_code,
+        case_wrap_up_code,
         case_owner_name,
         case_owner_title,
         account_name,

@@ -141,15 +141,14 @@ explore: salesforce_case {
     type: left_outer
     sql_on: ${salesforce_case.id} = ${salesforce_case_history.case_id} ;;
     }
-  join: salesforce_case_history_field_max_rn {
+  join: salesforce_case_hist_last  {
     relationship: one_to_one
     type: left_outer
-    sql_on: ${salesforce_case_history.case_id} = ${salesforce_case_history_field_max_rn.salesforce_case_history_case_id }
-            AND ${salesforce_case_history.field} = ${salesforce_case_history_field_max_rn.salesforce_case_history_field }
-            AND ${salesforce_case_history.case_history_rn} = ${salesforce_case_history_field_max_rn.salesforce_case_history_max_rn_field }
+    sql_on: ${salesforce_case_history.case_id} = ${salesforce_case_hist_last.case_id}
+     AND ${salesforce_case_history.field} = ${salesforce_case_hist_last.field}
+      AND ${salesforce_case_history.case_history_rn} = ${salesforce_case_hist_last.max_rn_field}
             ;;
-
-  }
+     }
 
 
 }
