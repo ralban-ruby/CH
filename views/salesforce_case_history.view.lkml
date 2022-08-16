@@ -28,6 +28,13 @@ view: salesforce_case_history {
       drill_fields: [detail*]
       }
 
+  measure: draft_total {
+    type: sum
+    label: "Email In Draft"
+    filters: [field: "New_Reply_Notification__c",new_value: "In Draft"]
+    sql: CASE WHEN ${field} = 'New_Reply_Notification__c' AND ${new_value} = 'In Draft' THEN 1 ELSE 0 END ;;
+    drill_fields: [detail*]
+  }
 
     dimension: case_status {
       sql: ${salesforce_case.status} ;;
