@@ -237,6 +237,7 @@ view: ch_case {
     label: "Avg Case age Days"
     type: average
     sql: ${case_age_days};;
+    value_format: "0.#"
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
