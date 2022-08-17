@@ -79,6 +79,12 @@ explore: ch_case {
     type: full_outer
     sql_on: ${ch_case.employeeid}=${employee_lookup_master.employeeid};;
   }
+  join: ch_team_errors {
+    relationship: one_to_one
+    type: full_outer
+    sql_on: ${ch_case.case_number}=${ch_team_errors.case_number}
+      ANd ${ch_team_errors.receptionist_name}=${employee_lookup_master.name};;
+  }
 }
 
 explore: salesforce_task {
