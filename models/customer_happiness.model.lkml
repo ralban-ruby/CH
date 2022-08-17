@@ -81,6 +81,14 @@ explore: ch_case {
   }
 }
 
+  explore: ch_team_errors {
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${ch_team_errors.receptionist_name}=${employee_lookup_master.name};;
+  }
+}
+
 explore: salesforce_task {
   join: salesforce_user {
     relationship: many_to_one

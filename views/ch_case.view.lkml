@@ -145,9 +145,19 @@ view: ch_case {
     sql: ${TABLE}."REASON" ;;
   }
 
+  dimension: receptionist_name {
+    type: string
+    sql: ${TABLE}."RECEPTIONIST_NAME" ;;
+  }
+
   dimension: rollup_description {
     type: string
     sql: ${TABLE}."ROLLUP_DESCRIPTION" ;;
+  }
+
+  dimension: ruby_receptionist_c {
+    type: string
+    sql: ${TABLE}."RUBY_RECEPTIONIST_C" ;;
   }
 
   dimension: service_complaints {
@@ -248,7 +258,7 @@ view: ch_case {
     drill_fields: [case_number,case_owner,account_name,status,createdate_date,closeddate_date,case_age_days,wrap_up_code_c,wrap_up_sub_codes_c,subject]
   }
 
- measure: Sum_Errors {
+  measure: Sum_Errors {
     label: "Sum_Errors"
     type: sum
     sql: ${errors};;
