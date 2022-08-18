@@ -54,11 +54,11 @@ explore: cancel_churn  {
     type: left_outer
     sql_on: ${mrr_details_combined.crm_id} = ${cancel_churn.crm_id} ;;
   }
-  join: cancel_request{
-    relationship: many_to_many
-    type: left_outer
-    sql_on: ${cancel_request.salesforce_account} = ${cancel_churn.crm_id} ;;
-  }
+  # join: cancel_request{
+  #   relationship: one_to_many
+  #   type: left_outer
+  #   sql_on: ${cancel_request.salesforce_account} = ${cancel_churn.crm_id};;
+  # }
 }
 
 explore: Connections {

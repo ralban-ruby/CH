@@ -329,8 +329,9 @@ view: cancel_churn {
   dimension:  cancel_request_no_churn_yet_opp{
    type: number
    sql: CASE WHEN  (${mrr_churn_amt} = 0 OR ${mrr_churn_amt} IS NULL)  AND ${cancel_req_booking_flag} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
-  drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+  drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
     }
+
 
   # dimension: service_type {
   #   type: string
@@ -341,7 +342,7 @@ view: cancel_churn {
     label: "Cancelled Reception"
      filters: [cancelled_account_reception_product: "1"]
      sql:  CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
-     drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+     drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
   measure: sum_cancelled_chat_product {
@@ -349,7 +350,7 @@ view: cancel_churn {
     label: "Cancelled Chat"
     filters: [cancelled_account_chat_product: "1"]
     sql:  CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${mrr_churn_amt} < 0 AND ${last_book_before_churn_d} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
   measure: sum_cancelsave_reception_product {
@@ -357,7 +358,7 @@ view: cancel_churn {
     label: "Cancelled Save Reception"
     filters: [cancel_save_reception_product: "1"]
     sql:CASE WHEN ${requested_product_cancel}  = 'Reception' AND ${customer_saved_c} = 1 AND ${cancel_req_created_date} <= ${last_booking_date} THEN 1 ELSE 0 END ;;
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
   }
 
   measure: sum_cancelledsave_chat_product {
@@ -365,7 +366,7 @@ view: cancel_churn {
     label: "Cancel Save Chat"
     filters: [cancel_save_chat_product: "1"]
     sql:  CASE WHEN ${requested_product_cancel}  = 'Chat' AND ${customer_saved_c} = 1 AND ${cancel_req_created_date} <= ${last_booking_date} THEN 1 ELSE 0 END ;;
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name,cancel_save_owner_name]
   }
 
   measure: sum_cancelrequest_nochurn_opp {
@@ -373,7 +374,7 @@ view: cancel_churn {
     label: "Cancelled Request No Churn Yet"
     filters: [cancel_request_no_churn_yet_opp: "1"]
     sql:  CASE WHEN  (${mrr_churn_amt} = 0 OR ${mrr_churn_amt} IS NULL)  AND ${cancel_req_booking_flag} = 1 AND ${customer_saved_c} <> 1 AND ${uncancel_c} <> 1 THEN 1 ELSE 0 END ;;
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,primary_reason_detail_c,primary_attempted_tactic_c,cancel_req_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,primary_reason_detail_c,primary_attempted_tactic_c,cancel_req_owner_name]
   }
 
   measure: count_distinct_cancelled_accounts {
@@ -381,7 +382,7 @@ view: cancel_churn {
     label: "Cancelled Accounts"
     sql:  ${TABLE}."CRM_ID"  ;;
     filters:   [mrr_churn_amt:"<0",last_book_before_churn_d:"=1",customer_saved_c: "-1",uncancel_c: "-1" ]
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
   measure: count_distinct_cancel_save_accounts {
@@ -389,14 +390,14 @@ view: cancel_churn {
     label: "Cancel Saved Accounts"
     sql:  ${TABLE}."CRM_ID"  ;;
     filters:   [cancel_req_booking_flag:"=1",customer_saved_c: "1" ]
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
   measure: count_distinct_cancel_requested_accounts {
     type:  count_distinct
     label: "Cancel Requested Accounts"
     sql:  ${TABLE}."CRM_ID"  ;;
-    drill_fields: [customer,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,last_booking_date,primary_cancel_reason_c,cancel_req_owner_name]
+    drill_fields: [customer,customer_saved_c,cancel_req_created_date,requested_product_cancel,mrr_churn_date,cancellation_effective_date_c_date,primary_cancel_reason_c,cancel_req_owner_name]
   }
 
 
