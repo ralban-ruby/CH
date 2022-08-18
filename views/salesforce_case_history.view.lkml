@@ -16,7 +16,7 @@ view: salesforce_case_history {
       type: sum
       label: "Email New Replies"
       filters: [field: "New_Reply_Notification__c",new_value: "New Reply!"]
-      sql: CASE WHEN ${field} = 'New_Reply_Notification__c' AND ${new_value} = 'New Reply!' THEN 1 ELSE 0 END ;;
+      sql: CASE WHEN ${field} = 'New_Reply_Notification__c' AND ${new_value} = 'New Reply!'  THEN 1 ELSE 0 END ;;
       drill_fields: [detail*]
       }
 
@@ -65,7 +65,13 @@ view: salesforce_case_history {
 
     dimension: case_number {
       sql: ${salesforce_case.case_number} ;;
-    }
+       link: {
+        label: "Look at Individual Case Email Activity"
+         url: "https://rubyreceptionists.cloud.looker.com/dashboards/146?Case%20Number={{ salesforce_case.case_number | encode_url }}"
+        icon_url: "https://www.google.com/s2/favicons?domain=https://www.ruby.com/"
+           }
+          }
+
 
   dimension: account_name {
     sql: ${salesforce_account.name} ;;
@@ -99,9 +105,16 @@ view: salesforce_case_history {
     }
 
     dimension_group: created_date {
+      label: "Case History Create Date"
       type: time
       sql: ${TABLE}."CREATED_DATE" ;;
       convert_tz: no
+    }
+
+    dimension: case_created_date {
+      type: date
+      sql: ${salesforce_case.created_date_date} ;;
+
     }
 
     dimension: field {
@@ -133,6 +146,7 @@ view: salesforce_case_history {
     set: detail {
       fields: [
         case_number,
+        case_created_date,
         case_status,
         case_wrap_up_code,
         case_owner_name,
