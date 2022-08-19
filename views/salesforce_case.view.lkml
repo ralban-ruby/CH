@@ -58,6 +58,18 @@ view: salesforce_case {
       sql: ${TABLE}."CASE_NUMBER" ;;
     }
 
+  dimension: case_number_w_link {
+    sql: ${salesforce_case.case_number} ;;
+    link: {
+      label: "Look at Individual Case Email Activity"
+      url: "https://rubyreceptionists.cloud.looker.com/dashboards/146?Case%20Number={{ salesforce_case.case_number | encode_url }}"
+      icon_url: "https://www.google.com/s2/favicons?domain=https://www.ruby.com/"
+    }
+  }
+
+
+
+
     dimension: contact_id {
       type: string
       sql: ${TABLE}."CONTACT_ID" ;;
