@@ -11,7 +11,7 @@ view: salesforce_case {
       type: count_distinct
       label: "Total Distinct Cases"
       sql: ${TABLE}."ID" ;;
-      drill_fields: [case_owner_name, case_owner_title,account_name,case_number,supplied_name,supplied_email,supplied_phone,status,is_closed,closed_date_time,created_date_time]
+      drill_fields: [case_owner_name, case_owner_title,account_name,case_number,origin,wrap_up_code_c,wrap_up_sub_codes_c,status,is_closed,closed_date_time,created_date_time]
     }
 
 
