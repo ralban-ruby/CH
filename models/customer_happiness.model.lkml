@@ -162,6 +162,35 @@ explore: salesforce_case {
 }
 
 
+explore:interactions  {
+  join: ic_calldetail {
+    relationship: many_to_many
+    type: left_outer
+    sql_on: ${interactions.interaction_id} = ${ic_calldetail.callid} ;;
+  }
+  join: salesforce_case {
+    relationship: one_to_one
+    type: left_outer
+    sql_on: ${interactions.interaction_id} = ${salesforce_case.case_number} ;;
+   # sql_where: ${salesforce_case.wrap_up_code_c} NOT IN ('NULL', 'Non-Actionable') ;;
+  }
+  join: employee_lookup_master {
+    relationship: many_to_one
+    type: inner
+    sql_on: ${interactions.employeeid} = ${employee_lookup_master.employeeid}  ;;
+  }
+  join: salesforce_account {
+    relationship: many_to_one
+    type: full_outer
+    sql_on: ${salesforce_account.id} = ${salesforce_case.account_id}  ;;
+  }
+
+
+}
+
+
+
+
 datagroup: customer_happiness_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
