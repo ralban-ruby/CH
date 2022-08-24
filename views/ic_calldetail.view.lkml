@@ -7,8 +7,17 @@ view: ic_calldetail {
   }
 
   measure: count {
-    type: count
+    type: count_distinct
+    sql: ${TABLE}."CALLID" ;;
     drill_fields: [detail*]
+  }
+
+  dimension: employee_name {
+    sql: ${employee_lookup_master.name} ;;
+  }
+
+  dimension: employee_title {
+    sql:${employee_lookup_master.title} ;;
   }
 
   dimension: callid {
@@ -314,59 +323,20 @@ view: ic_calldetail {
       lineid,
       stationid,
       localuserid,
-      assignedworkgroup,
       localnumber,
-      localname,
+      employee_name,
+      employee_title,
       remotenumber,
-      remotenumbercountry,
-      remotenumberlocomp1,
-      remotenumberlocomp2,
-      remotenumberfmt,
+     remotenumberfmt,
       remotenumbercallid,
       remotename,
       initiateddate_time,
-      initiateddatetimegmt_time,
       connecteddate_time,
-      connecteddatetimegmt_time,
       terminateddate_time,
-      terminateddatetimegmt_time,
       calldurationseconds,
       holddurationseconds,
       linedurationseconds,
-      dnis,
-      calleventlog,
-      customnum1,
-      customnum2,
-      customnum3,
-      customstring1,
-      customstring2,
-      customstring3,
-      customdatetime_time,
-      customdatetimegmt_time,
-      interactiontype,
-      accountcode,
-      purposecode,
-      dispositioncode,
-      callnote,
-      siteid,
-      subsiteid,
-      i3_timestampgmt_time,
-      wrapupcode,
-      tdialing,
-      tivrwait,
-      tqueuewait,
-      talert,
-      tsuspend,
-      tconference,
-      texternal,
-      tacw,
-      nivr,
-      nqueuewait,
-      ntalk,
-      nconference,
-      nheld,
-      ntransfer,
-      nexternal
-    ]
+      dnis
+             ]
   }
 }
