@@ -59,11 +59,11 @@ view: mrr_details_combined {
     sql: ${TABLE}."Name" ;;
     link: {
       label: "Link To Account Dashboard: {{ value }} "
-      url: "https://rubyreceptionists.cloud.looker.com/dashboards/13?CRM%20Name={{ account.crm_name | encode_url }}"
+      url: "https://rubyreceptionists.cloud.looker.com/dashboards/13?CRM%20Name={{crm_name | encode_url }}"
       icon_url: "https://www.google.com/s2/favicons?domain=https://www.ruby.com/"
     }
     html:
-      <a href="https://rubyreceptionists.cloud.looker.com/dashboards/13?CRM%20Name={{ account.crm_name._value | encode_url }}">{{ value }}</a>;;
+      <a href="https://rubyreceptionists.cloud.looker.com/dashboards/13?CRM%20Name={{crm_name._value | encode_url }}">{{ value }}</a>;;
   }
 
 

@@ -184,7 +184,13 @@ explore:interactions  {
     type: full_outer
     sql_on: ${salesforce_account.id} = ${salesforce_case.account_id}  ;;
   }
+  join: min_max_date_last_30_days {
+    relationship: many_to_many
+    type: full_outer
+    sql_on: 1=1 ;;
 
+
+  }
 
 }
 

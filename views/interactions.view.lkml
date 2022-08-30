@@ -48,6 +48,39 @@ view: interactions {
     drill_fields: [detail*]
   }
 
+  # measure: max_date_initiated {
+  #   type: date
+  #   sql: MAX(${TABLE}."DATE_INITIATED") ;;
+
+  # }
+
+  # measure: min_date_initiated {
+  #   type: date
+  #   sql: MIN(${TABLE}."DATE_INITIATED") ;;
+  # }
+
+
+dimension: start_date {
+    sql: ${min_max_date_last_30_days.interactions_min_date_initiated} ;;
+}
+
+  dimension: end_date {
+       sql: ${min_max_date_last_30_days.interactions_max_date_initiated} ;;
+  }
+
+
+ dimension: working_days  {
+   type: number
+   sql:  ( DATEDIFF(DAY, ${start_date}, DATEADD(DAY, 1, ${end_date}))
+    - DATEDIFF(WEEK, ${start_date}, DATEADD(DAY, 1, ${end_date}))*2
+    - (CASE WHEN DAYNAME(${start_date}) != 'Sun' THEN 1 ELSE 0 END)
+    + (CASE WHEN DAYNAME(${end_date}) != 'Sat' THEN 1 ELSE 0 END)
+    );;
+
+ }
+
+
+
   dimension: interaction_id {
     type: string
     sql: ${TABLE}."INTERACTION_ID" ;;
