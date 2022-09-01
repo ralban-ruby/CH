@@ -7,6 +7,7 @@ view: interactions {
         E.DEPARTMENT_DESC,
         CAST(INITIATEDDATE AS DATE) AS Date_Initiated ,
         E.EMPLOYEEID ,
+        E.EMPLOYEE_CODE,
         LOCALUSERID AS OwnerName ,
         E.NAME AS EmployeeName
       FROM
@@ -24,6 +25,7 @@ view: interactions {
         E.DEPARTMENT_DESC ,
         CAST(c.created_date AS date) AS Date_Initiated,
         E.EMPLOYEEID ,
+        E.EMPLOYEE_CODE,
         u."NAME" AS OwnerName,
         E.NAME AS EmployeeName
       FROM
@@ -60,24 +62,24 @@ view: interactions {
   # }
 
 
-dimension: start_date {
-    sql: ${min_max_date_last_30_days.interactions_min_date_initiated} ;;
-}
+# dimension: start_date {
+#     sql: ${min_max_date_last_30_days.interactions_min_date_initiated} ;;
+# }
 
-  dimension: end_date {
-       sql: ${min_max_date_last_30_days.interactions_max_date_initiated} ;;
-  }
+#   dimension: end_date {
+#       sql: ${min_max_date_last_30_days.interactions_max_date_initiated} ;;
+#   }
 
 
- dimension: working_days  {
-   type: number
-   sql:  ( DATEDIFF(DAY, ${start_date}, DATEADD(DAY, 1, ${end_date}))
-    - DATEDIFF(WEEK, ${start_date}, DATEADD(DAY, 1, ${end_date}))*2
-    - (CASE WHEN DAYNAME(${start_date}) != 'Sun' THEN 1 ELSE 0 END)
-    + (CASE WHEN DAYNAME(${end_date}) != 'Sat' THEN 1 ELSE 0 END)
-    );;
+# dimension: working_days  {
+#   type: number
+#   sql:  ( DATEDIFF(DAY, ${start_date}, DATEADD(DAY, 1, ${end_date}))
+#     - DATEDIFF(WEEK, ${start_date}, DATEADD(DAY, 1, ${end_date}))*2
+#     - (CASE WHEN DAYNAME(${start_date}) != 'Sun' THEN 1 ELSE 0 END)
+#     + (CASE WHEN DAYNAME(${end_date}) != 'Sat' THEN 1 ELSE 0 END)
+#     );;
 
- }
+# }
 
 
 
@@ -111,6 +113,12 @@ dimension: start_date {
     type: number
     sql: ${TABLE}."EMPLOYEEID" ;;
   }
+
+    dimension: employeecode {
+      type: number
+      sql: ${TABLE}."EMPLOYEE_CODE" ;;
+  }
+
 
   dimension: ownername {
     type: string

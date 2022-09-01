@@ -188,11 +188,38 @@ explore:interactions  {
     relationship: many_to_many
     type: full_outer
     sql_on: 1=1 ;;
-
-
+  }
+  join:hours_worked  {
+    relationship: many_to_many
+    type: left_outer
+    sql_on: ${interactions.employeecode} = ${hours_worked.employeecode}  ;;
   }
 
 }
+
+# explore: hours_worked{
+#   join: interactions {
+#     relationship: many_to_many
+#     type: left_outer
+#     sql_on: ${interactions.employeecode} = ${hours_worked.employeecode}  ;;
+#   }
+#   join: employee_lookup_master {
+#     relationship: many_to_one
+#     type: inner
+#     sql_on: ${interactions.employeeid} = ${employee_lookup_master.employeeid}  ;;
+#   }
+#   join: salesforce_case {
+#     relationship: one_to_one
+#     type: left_outer
+#     sql_on: ${interactions.interaction_id} = ${salesforce_case.case_number} ;;
+#     # sql_where: ${salesforce_case.wrap_up_code_c} NOT IN ('NULL', 'Non-Actionable') ;;
+#   }
+#   join: salesforce_account {
+#     relationship: many_to_one
+#     type: full_outer
+#     sql_on: ${salesforce_account.id} = ${salesforce_case.account_id}  ;;
+#   }
+
 
 
 
